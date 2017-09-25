@@ -31,6 +31,8 @@ def is_range(value: tuple) -> bool:
         return True
     except ValueError:
         return False
+    except TypeError:
+        return False
 
 
 def in_range(value: numeric, val_range: tuple):
