@@ -1,5 +1,7 @@
 from typing import Callable
-from .check_util import check_value, is_ratio, is_range, is_iterable
+from .check_util import check_type, check_value, is_ratio, is_range, is_iterable
+
+import re
 
 
 def compute_diff(arg1: float, arg2: float):
@@ -18,3 +20,9 @@ def try_to_map(func: Callable, value):
         return type(value)(map(func, value))
     else:
         return func(value)
+
+
+def search_indication_set_float_value(key_name: str, text: str):
+    return re.compile(
+        r'(?<={}=)[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?'.format(key_name)
+    ).search(text)
