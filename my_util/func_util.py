@@ -22,7 +22,7 @@ def try_to_map(func: Callable, value):
         return func(value)
 
 
-def search_indication_set_float_value(key_name: str, text: str):
+def search_indication_to_set_float_value(key_name: str, text: str):
     return re.compile(
         r'(?<={}=)[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?'.format(key_name)
     ).search(text)
