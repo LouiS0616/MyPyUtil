@@ -1,5 +1,5 @@
 from typing import Callable
-from .check_util import check_type, check_value, is_ratio, is_range, is_iterable
+from .check_util import *
 
 import re
 
@@ -11,8 +11,19 @@ def compute_diff(arg1: float, arg2: float):
 def compute_value_by_ratio_and_range(ratio: float, val_range: tuple) -> float:
     check_value(ratio, is_ratio)
     check_value(val_range, is_range)
-    value = compute_diff(*val_range) * ratio + val_range[0]
-    return value
+    return compute_diff(*val_range) * ratio + val_range[0]
+
+
+def compute_ratio_by_value_and_range(value: float, val_range: tuple) -> float:
+    check_value(val_range, is_range)
+    check_value(value, make_in_specific_range(val_range))
+    return (value - val_range[0]) / compute_diff(*val_range)
+
+
+def make_in_specific_range(val_range):
+    def in_specific_range(value: float) -> bool:
+        return in_range(value, val_range)
+    return in_specific_range
 
 
 def try_to_map(func: Callable, value):
