@@ -37,3 +37,24 @@ def search_indication_to_set_float_value(key_name: str, text: str):
     return re.compile(
         r'(?<={}=)[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?'.format(key_name)
     ).search(text)
+
+
+def ret_just_do_func(func, *params):
+    def just_do_func():
+        return func(*params)
+    return just_do_func
+
+
+def try_to_call_func_with_log(log, func: Callable, *params):
+    if not hasattr(log, 'copy_by'):
+        raise TypeError
+
+    just_do = ret_just_do_func(func, *params)
+    # noinspection PyBroadException
+    try:
+        ret = just_do()
+    except:
+        return log
+
+    log.copy_by(ret)
+    return ret
